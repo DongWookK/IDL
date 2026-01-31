@@ -1,6 +1,6 @@
 namespace MyGame;
 
-enum sql_type : uint8_t
+enum sql_type : uint8
 { 
 	info = 0
 	, game
