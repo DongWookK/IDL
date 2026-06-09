@@ -1,0 +1,8 @@
+namespace Game;
+
+table TestEcho
+{
+	type: uint16;
+
+	data: string (required);
+}
