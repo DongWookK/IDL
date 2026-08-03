@@ -16,29 +16,35 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
 
 namespace Game {
 
-enum class tr_type : uint8_t {
+enum class tr_type : uint16_t {
   TestEcho = 0,
+  UserLoginReq = 1,
+  UserLoginAck = 2,
   MIN = TestEcho,
-  MAX = TestEcho
+  MAX = UserLoginAck
 };
 
-inline const tr_type (&EnumValuestr_type())[1] {
+inline const tr_type (&EnumValuestr_type())[3] {
   static const tr_type values[] = {
-    tr_type::TestEcho
+    tr_type::TestEcho,
+    tr_type::UserLoginReq,
+    tr_type::UserLoginAck
   };
   return values;
 }
 
 inline const char * const *EnumNamestr_type() {
-  static const char * const names[2] = {
+  static const char * const names[4] = {
     "TestEcho",
+    "UserLoginReq",
+    "UserLoginAck",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNametr_type(tr_type e) {
-  if (::flatbuffers::IsOutRange(e, tr_type::TestEcho, tr_type::TestEcho)) return "";
+  if (::flatbuffers::IsOutRange(e, tr_type::TestEcho, tr_type::UserLoginAck)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamestr_type()[index];
 }

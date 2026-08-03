@@ -3,6 +3,17 @@ namespace Game;
 table TestEcho
 {
 	type: uint16;
-
 	data: string (required);
+}
+
+table LoginReq
+{
+	type: uint16;
+	user_no: int32;
+}
+
+table LoginAck
+{
+	type: uint16;
+	user_no: int32;
 }

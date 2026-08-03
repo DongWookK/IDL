@@ -1,4 +1,4 @@
-namespace MyGame;
+namespace Common;
 
 enum sql_type : uint8
 { 

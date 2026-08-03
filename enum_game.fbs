@@ -1,6 +1,8 @@
 namespace Game;
 
-enum tr_type : uint8
+enum tr_type : uint16
 {
-	TestEcho  = 0
+	TestEcho  = 0,
+	UserLoginReq,
+	UserLoginAck,
 }
