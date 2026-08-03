@@ -1,4 +1,4 @@
-namespace Game;
+namespace game;
 
 enum tr_type : uint16
 {

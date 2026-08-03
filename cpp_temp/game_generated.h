@@ -13,7 +13,7 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
               FLATBUFFERS_VERSION_REVISION == 19,
              "Non-compatible flatbuffers version included");
 
-namespace Game {
+namespace game {
 
 struct TestEcho;
 struct TestEchoBuilder;
@@ -109,7 +109,7 @@ inline ::flatbuffers::Offset<TestEcho> CreateTestEchoDirect(
     uint16_t type = 0,
     const char *data = nullptr) {
   auto data__ = data ? _fbb.CreateString(data) : 0;
-  return Game::CreateTestEcho(
+  return game::CreateTestEcho(
       _fbb,
       type,
       data__);
@@ -292,12 +292,13 @@ inline ::flatbuffers::Offset<TestEcho> TestEcho::Pack(::flatbuffers::FlatBufferB
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const TestEchoT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _type = _o->type;
   auto _data = _fbb.CreateString(_o->data);
-  return Game::CreateTestEcho(
+  return game::CreateTestEcho(
       _fbb,
       _type,
       _data);
 }
 
+<<<<<<< Updated upstream
 
 inline bool operator==(const LoginReqT &lhs, const LoginReqT &rhs) {
   return
@@ -381,5 +382,8 @@ inline ::flatbuffers::Offset<LoginAck> LoginAck::Pack(::flatbuffers::FlatBufferB
 }
 
 }  // namespace Game
+=======
+}  // namespace game
+>>>>>>> Stashed changes
 
 #endif  // FLATBUFFERS_GENERATED_GAME_GAME_H_

@@ -14,7 +14,7 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
              "Non-compatible flatbuffers version included");
 
 
-namespace Game {
+namespace game {
 
 enum class tr_type : uint16_t {
   TestEcho = 0,
@@ -49,6 +49,6 @@ inline const char *EnumNametr_type(tr_type e) {
   return EnumNamestr_type()[index];
 }
 
-}  // namespace Game
+}  // namespace game
 
 #endif  // FLATBUFFERS_GENERATED_ENUMGAME_GAME_H_

@@ -1,4 +1,4 @@
-namespace Game;
+namespace game;
 
 table TestEcho
 {
