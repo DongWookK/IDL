@@ -6,13 +6,13 @@ table TestEcho
 	data: string (required);
 }
 
-table LoginReq
+table UserLoginReq
 {
 	type: uint16;
 	user_no: int32;
 }
 
-table LoginAck
+table UserLoginAck
 {
 	type: uint16;
 	user_no: int32;
