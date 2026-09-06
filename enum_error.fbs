@@ -1,0 +1,7 @@
+namespace common;
+
+enum error_code : uint16
+{
+	none = 0,
+	UserLoginFail,
+}
