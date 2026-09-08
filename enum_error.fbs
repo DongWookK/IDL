@@ -1,7 +1,10 @@
-namespace common;
+namespace error;
 
-enum error_code : uint16
+enum code : uint16
 {
 	none = 0,
+	ObjectAcquireFail,
 	UserLoginFail,
+	UserLogoutFail,
+	UserNotExist,
 }
