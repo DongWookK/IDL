@@ -5,4 +5,6 @@ enum tr_type : uint16
 	TestEcho  = 0,
 	UserLoginReq,
 	UserLoginAck,
+	UserLogoutReq,
+	UserLogoutAck,
 }

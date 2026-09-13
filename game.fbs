@@ -17,3 +17,15 @@ table UserLoginAck
 	type: uint16;
 	user_no: int32;
 }
+
+table UserLogoutReq
+{
+	type: uint16;
+	user_no: int32;
+}
+
+table UserLogoutAck
+{
+	type: uint16;
+	user_no: int32;
+}
