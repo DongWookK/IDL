@@ -17,40 +17,49 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
 namespace error {
 
 enum class code : uint16_t {
-  none = 0,
-  ObjectAcquireFail = 1,
-  UserLoginFail = 2,
-  UserLogoutFail = 3,
-  UserNotExist = 4,
-  MIN = none,
-  MAX = UserNotExist
+  ok = 0,
+  sql_fail = 1,
+  sql_stmt_invalid = 2,
+  file_open_fail = 3,
+  object_acquire_fail = 4,
+  user_login_fail = 5,
+  user_logout_fail = 6,
+  user_not_exist = 7,
+  MIN = ok,
+  MAX = user_not_exist
 };
 
-inline const code (&EnumValuescode())[5] {
+inline const code (&EnumValuescode())[8] {
   static const code values[] = {
-    code::none,
-    code::ObjectAcquireFail,
-    code::UserLoginFail,
-    code::UserLogoutFail,
-    code::UserNotExist
+    code::ok,
+    code::sql_fail,
+    code::sql_stmt_invalid,
+    code::file_open_fail,
+    code::object_acquire_fail,
+    code::user_login_fail,
+    code::user_logout_fail,
+    code::user_not_exist
   };
   return values;
 }
 
 inline const char * const *EnumNamescode() {
-  static const char * const names[6] = {
-    "none",
-    "ObjectAcquireFail",
-    "UserLoginFail",
-    "UserLogoutFail",
-    "UserNotExist",
+  static const char * const names[9] = {
+    "ok",
+    "sql_fail",
+    "sql_stmt_invalid",
+    "file_open_fail",
+    "object_acquire_fail",
+    "user_login_fail",
+    "user_logout_fail",
+    "user_not_exist",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNamecode(code e) {
-  if (::flatbuffers::IsOutRange(e, code::none, code::UserNotExist)) return "";
+  if (::flatbuffers::IsOutRange(e, code::ok, code::user_not_exist)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamescode()[index];
 }

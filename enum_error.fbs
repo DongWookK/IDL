@@ -2,9 +2,12 @@ namespace error;
 
 enum code : uint16
 {
-	none = 0,
-	ObjectAcquireFail,
-	UserLoginFail,
-	UserLogoutFail,
-	UserNotExist,
+	ok = 0,
+	sql_fail,
+	sql_stmt_invalid,
+	file_open_fail,
+	object_acquire_fail,
+	user_login_fail,
+	user_logout_fail,
+	user_not_exist,
 }
