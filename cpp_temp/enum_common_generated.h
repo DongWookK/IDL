@@ -14,7 +14,7 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
              "Non-compatible flatbuffers version included");
 
 
-namespace Common {
+namespace common {
 
 enum class sql_type : uint8_t {
   info = 0,
@@ -46,6 +46,6 @@ inline const char *EnumNamesql_type(sql_type e) {
   return EnumNamessql_type()[index];
 }
 
-}  // namespace Common
+}  // namespace common
 
 #endif  // FLATBUFFERS_GENERATED_ENUMCOMMON_COMMON_H_
