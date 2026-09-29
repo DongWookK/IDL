@@ -22,20 +22,22 @@ enum class code : uint16_t {
   sql_stmt_invalid = 2,
   file_open_fail = 3,
   object_acquire_fail = 4,
-  user_login_fail = 5,
-  user_logout_fail = 6,
-  user_not_exist = 7,
+  session_invalid = 5,
+  user_login_fail = 6,
+  user_logout_fail = 7,
+  user_not_exist = 8,
   MIN = ok,
   MAX = user_not_exist
 };
 
-inline const code (&EnumValuescode())[8] {
+inline const code (&EnumValuescode())[9] {
   static const code values[] = {
     code::ok,
     code::sql_fail,
     code::sql_stmt_invalid,
     code::file_open_fail,
     code::object_acquire_fail,
+    code::session_invalid,
     code::user_login_fail,
     code::user_logout_fail,
     code::user_not_exist
@@ -44,12 +46,13 @@ inline const code (&EnumValuescode())[8] {
 }
 
 inline const char * const *EnumNamescode() {
-  static const char * const names[9] = {
+  static const char * const names[10] = {
     "ok",
     "sql_fail",
     "sql_stmt_invalid",
     "file_open_fail",
     "object_acquire_fail",
+    "session_invalid",
     "user_login_fail",
     "user_logout_fail",
     "user_not_exist",

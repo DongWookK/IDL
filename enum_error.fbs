@@ -7,6 +7,7 @@ enum code : uint16
 	sql_stmt_invalid,
 	file_open_fail,
 	object_acquire_fail,
+	session_invalid,
 	user_login_fail,
 	user_logout_fail,
 	user_not_exist,
