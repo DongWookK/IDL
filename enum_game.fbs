@@ -7,4 +7,5 @@ enum tr_type : uint16
 	UserLoginAck,
 	UserLogoutReq,
 	UserLogoutAck,
+	Nak,
 }

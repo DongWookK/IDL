@@ -22,35 +22,38 @@ enum class tr_type : uint16_t {
   UserLoginAck = 2,
   UserLogoutReq = 3,
   UserLogoutAck = 4,
+  Nak = 5,
   MIN = TestEcho,
-  MAX = UserLogoutAck
+  MAX = Nak
 };
 
-inline const tr_type (&EnumValuestr_type())[5] {
+inline const tr_type (&EnumValuestr_type())[6] {
   static const tr_type values[] = {
     tr_type::TestEcho,
     tr_type::UserLoginReq,
     tr_type::UserLoginAck,
     tr_type::UserLogoutReq,
-    tr_type::UserLogoutAck
+    tr_type::UserLogoutAck,
+    tr_type::Nak
   };
   return values;
 }
 
 inline const char * const *EnumNamestr_type() {
-  static const char * const names[6] = {
+  static const char * const names[7] = {
     "TestEcho",
     "UserLoginReq",
     "UserLoginAck",
     "UserLogoutReq",
     "UserLogoutAck",
+    "Nak",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNametr_type(tr_type e) {
-  if (::flatbuffers::IsOutRange(e, tr_type::TestEcho, tr_type::UserLogoutAck)) return "";
+  if (::flatbuffers::IsOutRange(e, tr_type::TestEcho, tr_type::Nak)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamestr_type()[index];
 }

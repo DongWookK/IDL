@@ -35,6 +35,10 @@ struct UserLogoutAck;
 struct UserLogoutAckBuilder;
 struct UserLogoutAckT;
 
+struct Nak;
+struct NakBuilder;
+struct NakT;
+
 bool operator==(const TestEchoT &lhs, const TestEchoT &rhs);
 bool operator!=(const TestEchoT &lhs, const TestEchoT &rhs);
 bool operator==(const UserLoginReqT &lhs, const UserLoginReqT &rhs);
@@ -45,6 +49,8 @@ bool operator==(const UserLogoutReqT &lhs, const UserLogoutReqT &rhs);
 bool operator!=(const UserLogoutReqT &lhs, const UserLogoutReqT &rhs);
 bool operator==(const UserLogoutAckT &lhs, const UserLogoutAckT &rhs);
 bool operator!=(const UserLogoutAckT &lhs, const UserLogoutAckT &rhs);
+bool operator==(const NakT &lhs, const NakT &rhs);
+bool operator!=(const NakT &lhs, const NakT &rhs);
 
 struct TestEchoT : public ::flatbuffers::NativeTable {
   typedef TestEcho TableType;
@@ -132,7 +138,7 @@ inline ::flatbuffers::Offset<TestEcho> CreateTestEchoDirect(
 struct UserLoginReqT : public ::flatbuffers::NativeTable {
   typedef UserLoginReq TableType;
   uint16_t type = 0;
-  int32_t user_no = 0;
+  std::string user_name{};
 };
 
 struct UserLoginReq FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
@@ -141,19 +147,20 @@ struct UserLoginReq FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   struct Traits;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_TYPE = 4,
-    VT_USER_NO = 6
+    VT_USER_NAME = 6
   };
   uint16_t type() const {
     return GetField<uint16_t>(VT_TYPE, 0);
   }
-  int32_t user_no() const {
-    return GetField<int32_t>(VT_USER_NO, 0);
+  const ::flatbuffers::String *user_name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_USER_NAME);
   }
   template <bool B = false>
   bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint16_t>(verifier, VT_TYPE, 2) &&
-           VerifyField<int32_t>(verifier, VT_USER_NO, 4) &&
+           VerifyOffset(verifier, VT_USER_NAME) &&
+           verifier.VerifyString(user_name()) &&
            verifier.EndTable();
   }
   UserLoginReqT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -168,8 +175,8 @@ struct UserLoginReqBuilder {
   void add_type(uint16_t type) {
     fbb_.AddElement<uint16_t>(UserLoginReq::VT_TYPE, type, 0);
   }
-  void add_user_no(int32_t user_no) {
-    fbb_.AddElement<int32_t>(UserLoginReq::VT_USER_NO, user_no, 0);
+  void add_user_name(::flatbuffers::Offset<::flatbuffers::String> user_name) {
+    fbb_.AddOffset(UserLoginReq::VT_USER_NAME, user_name);
   }
   explicit UserLoginReqBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -185,9 +192,9 @@ struct UserLoginReqBuilder {
 inline ::flatbuffers::Offset<UserLoginReq> CreateUserLoginReq(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     uint16_t type = 0,
-    int32_t user_no = 0) {
+    ::flatbuffers::Offset<::flatbuffers::String> user_name = 0) {
   UserLoginReqBuilder builder_(_fbb);
-  builder_.add_user_no(user_no);
+  builder_.add_user_name(user_name);
   builder_.add_type(type);
   return builder_.Finish();
 }
@@ -197,11 +204,23 @@ struct UserLoginReq::Traits {
   static auto constexpr Create = CreateUserLoginReq;
 };
 
+inline ::flatbuffers::Offset<UserLoginReq> CreateUserLoginReqDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint16_t type = 0,
+    const char *user_name = nullptr) {
+  auto user_name__ = user_name ? _fbb.CreateString(user_name) : 0;
+  return game::CreateUserLoginReq(
+      _fbb,
+      type,
+      user_name__);
+}
+
 ::flatbuffers::Offset<UserLoginReq> CreateUserLoginReq(::flatbuffers::FlatBufferBuilder &_fbb, const UserLoginReqT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct UserLoginAckT : public ::flatbuffers::NativeTable {
   typedef UserLoginAck TableType;
   uint16_t type = 0;
+  std::string user_name{};
   int32_t user_no = 0;
 };
 
@@ -211,10 +230,14 @@ struct UserLoginAck FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   struct Traits;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_TYPE = 4,
-    VT_USER_NO = 6
+    VT_USER_NAME = 6,
+    VT_USER_NO = 8
   };
   uint16_t type() const {
     return GetField<uint16_t>(VT_TYPE, 0);
+  }
+  const ::flatbuffers::String *user_name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_USER_NAME);
   }
   int32_t user_no() const {
     return GetField<int32_t>(VT_USER_NO, 0);
@@ -223,6 +246,8 @@ struct UserLoginAck FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint16_t>(verifier, VT_TYPE, 2) &&
+           VerifyOffset(verifier, VT_USER_NAME) &&
+           verifier.VerifyString(user_name()) &&
            VerifyField<int32_t>(verifier, VT_USER_NO, 4) &&
            verifier.EndTable();
   }
@@ -237,6 +262,9 @@ struct UserLoginAckBuilder {
   ::flatbuffers::uoffset_t start_;
   void add_type(uint16_t type) {
     fbb_.AddElement<uint16_t>(UserLoginAck::VT_TYPE, type, 0);
+  }
+  void add_user_name(::flatbuffers::Offset<::flatbuffers::String> user_name) {
+    fbb_.AddOffset(UserLoginAck::VT_USER_NAME, user_name);
   }
   void add_user_no(int32_t user_no) {
     fbb_.AddElement<int32_t>(UserLoginAck::VT_USER_NO, user_no, 0);
@@ -255,9 +283,11 @@ struct UserLoginAckBuilder {
 inline ::flatbuffers::Offset<UserLoginAck> CreateUserLoginAck(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     uint16_t type = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> user_name = 0,
     int32_t user_no = 0) {
   UserLoginAckBuilder builder_(_fbb);
   builder_.add_user_no(user_no);
+  builder_.add_user_name(user_name);
   builder_.add_type(type);
   return builder_.Finish();
 }
@@ -266,6 +296,19 @@ struct UserLoginAck::Traits {
   using type = UserLoginAck;
   static auto constexpr Create = CreateUserLoginAck;
 };
+
+inline ::flatbuffers::Offset<UserLoginAck> CreateUserLoginAckDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint16_t type = 0,
+    const char *user_name = nullptr,
+    int32_t user_no = 0) {
+  auto user_name__ = user_name ? _fbb.CreateString(user_name) : 0;
+  return game::CreateUserLoginAck(
+      _fbb,
+      type,
+      user_name__,
+      user_no);
+}
 
 ::flatbuffers::Offset<UserLoginAck> CreateUserLoginAck(::flatbuffers::FlatBufferBuilder &_fbb, const UserLoginAckT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
@@ -409,6 +452,87 @@ struct UserLogoutAck::Traits {
 
 ::flatbuffers::Offset<UserLogoutAck> CreateUserLogoutAck(::flatbuffers::FlatBufferBuilder &_fbb, const UserLogoutAckT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct NakT : public ::flatbuffers::NativeTable {
+  typedef Nak TableType;
+  uint16_t type = 0;
+  uint16_t req_type = 0;
+  uint16_t error_code = 0;
+};
+
+struct Nak FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef NakT NativeTableType;
+  typedef NakBuilder Builder;
+  struct Traits;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_TYPE = 4,
+    VT_REQ_TYPE = 6,
+    VT_ERROR_CODE = 8
+  };
+  uint16_t type() const {
+    return GetField<uint16_t>(VT_TYPE, 0);
+  }
+  uint16_t req_type() const {
+    return GetField<uint16_t>(VT_REQ_TYPE, 0);
+  }
+  uint16_t error_code() const {
+    return GetField<uint16_t>(VT_ERROR_CODE, 0);
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint16_t>(verifier, VT_TYPE, 2) &&
+           VerifyField<uint16_t>(verifier, VT_REQ_TYPE, 2) &&
+           VerifyField<uint16_t>(verifier, VT_ERROR_CODE, 2) &&
+           verifier.EndTable();
+  }
+  NakT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(NakT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<Nak> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const NakT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct NakBuilder {
+  typedef Nak Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_type(uint16_t type) {
+    fbb_.AddElement<uint16_t>(Nak::VT_TYPE, type, 0);
+  }
+  void add_req_type(uint16_t req_type) {
+    fbb_.AddElement<uint16_t>(Nak::VT_REQ_TYPE, req_type, 0);
+  }
+  void add_error_code(uint16_t error_code) {
+    fbb_.AddElement<uint16_t>(Nak::VT_ERROR_CODE, error_code, 0);
+  }
+  explicit NakBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Nak> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Nak>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Nak> CreateNak(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint16_t type = 0,
+    uint16_t req_type = 0,
+    uint16_t error_code = 0) {
+  NakBuilder builder_(_fbb);
+  builder_.add_error_code(error_code);
+  builder_.add_req_type(req_type);
+  builder_.add_type(type);
+  return builder_.Finish();
+}
+
+struct Nak::Traits {
+  using type = Nak;
+  static auto constexpr Create = CreateNak;
+};
+
+::flatbuffers::Offset<Nak> CreateNak(::flatbuffers::FlatBufferBuilder &_fbb, const NakT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 
 inline bool operator==(const TestEchoT &lhs, const TestEchoT &rhs) {
   return
@@ -454,7 +578,7 @@ inline ::flatbuffers::Offset<TestEcho> TestEcho::Pack(::flatbuffers::FlatBufferB
 inline bool operator==(const UserLoginReqT &lhs, const UserLoginReqT &rhs) {
   return
       (lhs.type == rhs.type) &&
-      (lhs.user_no == rhs.user_no);
+      (lhs.user_name == rhs.user_name);
 }
 
 inline bool operator!=(const UserLoginReqT &lhs, const UserLoginReqT &rhs) {
@@ -472,7 +596,7 @@ inline void UserLoginReq::UnPackTo(UserLoginReqT *_o, const ::flatbuffers::resol
   (void)_o;
   (void)_resolver;
   { auto _e = type(); _o->type = _e; }
-  { auto _e = user_no(); _o->user_no = _e; }
+  { auto _e = user_name(); if (_e) _o->user_name = _e->str(); }
 }
 
 inline ::flatbuffers::Offset<UserLoginReq> CreateUserLoginReq(::flatbuffers::FlatBufferBuilder &_fbb, const UserLoginReqT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -484,17 +608,18 @@ inline ::flatbuffers::Offset<UserLoginReq> UserLoginReq::Pack(::flatbuffers::Fla
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const UserLoginReqT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _type = _o->type;
-  auto _user_no = _o->user_no;
+  auto _user_name = _o->user_name.empty() ? 0 : _fbb.CreateString(_o->user_name);
   return game::CreateUserLoginReq(
       _fbb,
       _type,
-      _user_no);
+      _user_name);
 }
 
 
 inline bool operator==(const UserLoginAckT &lhs, const UserLoginAckT &rhs) {
   return
       (lhs.type == rhs.type) &&
+      (lhs.user_name == rhs.user_name) &&
       (lhs.user_no == rhs.user_no);
 }
 
@@ -513,6 +638,7 @@ inline void UserLoginAck::UnPackTo(UserLoginAckT *_o, const ::flatbuffers::resol
   (void)_o;
   (void)_resolver;
   { auto _e = type(); _o->type = _e; }
+  { auto _e = user_name(); if (_e) _o->user_name = _e->str(); }
   { auto _e = user_no(); _o->user_no = _e; }
 }
 
@@ -525,10 +651,12 @@ inline ::flatbuffers::Offset<UserLoginAck> UserLoginAck::Pack(::flatbuffers::Fla
   (void)_o;
   struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const UserLoginAckT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _type = _o->type;
+  auto _user_name = _o->user_name.empty() ? 0 : _fbb.CreateString(_o->user_name);
   auto _user_no = _o->user_no;
   return game::CreateUserLoginAck(
       _fbb,
       _type,
+      _user_name,
       _user_no);
 }
 
@@ -612,6 +740,51 @@ inline ::flatbuffers::Offset<UserLogoutAck> UserLogoutAck::Pack(::flatbuffers::F
       _fbb,
       _type,
       _user_no);
+}
+
+
+inline bool operator==(const NakT &lhs, const NakT &rhs) {
+  return
+      (lhs.type == rhs.type) &&
+      (lhs.req_type == rhs.req_type) &&
+      (lhs.error_code == rhs.error_code);
+}
+
+inline bool operator!=(const NakT &lhs, const NakT &rhs) {
+    return !(lhs == rhs);
+}
+
+
+inline NakT *Nak::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::make_unique<NakT>();
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void Nak::UnPackTo(NakT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = type(); _o->type = _e; }
+  { auto _e = req_type(); _o->req_type = _e; }
+  { auto _e = error_code(); _o->error_code = _e; }
+}
+
+inline ::flatbuffers::Offset<Nak> CreateNak(::flatbuffers::FlatBufferBuilder &_fbb, const NakT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return Nak::Pack(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<Nak> Nak::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const NakT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const NakT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _type = _o->type;
+  auto _req_type = _o->req_type;
+  auto _error_code = _o->error_code;
+  return game::CreateNak(
+      _fbb,
+      _type,
+      _req_type,
+      _error_code);
 }
 
 }  // namespace game

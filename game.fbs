@@ -9,12 +9,13 @@ table TestEcho
 table UserLoginReq
 {
 	type: uint16;
-	user_no: int32;
+	user_name: string;
 }
 
 table UserLoginAck
 {
 	type: uint16;
+	user_name: string;
 	user_no: int32;
 }
 
@@ -28,4 +29,12 @@ table UserLogoutAck
 {
 	type: uint16;
 	user_no: int32;
+}
+
+// 요청 처리 실패 응답 (모든 Req 공용)
+table Nak
+{
+	type: uint16;
+	req_type: uint16;		// 실패한 요청의 tr_type
+	error_code: uint16;		// error::code
 }
