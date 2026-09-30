@@ -11,4 +11,6 @@ enum code : uint16
 	user_login_fail,
 	user_logout_fail,
 	user_not_exist,
+	user_already_login,
+	user_name_invalid,
 }
