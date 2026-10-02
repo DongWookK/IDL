@@ -13,4 +13,6 @@ enum code : uint16
 	user_not_exist,
 	user_already_login,
 	user_name_invalid,
+	object_spawn_fail,
+	object_despawn_fail,
 }

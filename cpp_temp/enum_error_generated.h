@@ -28,11 +28,13 @@ enum class code : uint16_t {
   user_not_exist = 8,
   user_already_login = 9,
   user_name_invalid = 10,
+  object_spawn_fail = 11,
+  object_despawn_fail = 12,
   MIN = ok,
-  MAX = user_name_invalid
+  MAX = object_despawn_fail
 };
 
-inline const code (&EnumValuescode())[11] {
+inline const code (&EnumValuescode())[13] {
   static const code values[] = {
     code::ok,
     code::sql_fail,
@@ -44,13 +46,15 @@ inline const code (&EnumValuescode())[11] {
     code::user_logout_fail,
     code::user_not_exist,
     code::user_already_login,
-    code::user_name_invalid
+    code::user_name_invalid,
+    code::object_spawn_fail,
+    code::object_despawn_fail
   };
   return values;
 }
 
 inline const char * const *EnumNamescode() {
-  static const char * const names[12] = {
+  static const char * const names[14] = {
     "ok",
     "sql_fail",
     "sql_stmt_invalid",
@@ -62,13 +66,15 @@ inline const char * const *EnumNamescode() {
     "user_not_exist",
     "user_already_login",
     "user_name_invalid",
+    "object_spawn_fail",
+    "object_despawn_fail",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNamecode(code e) {
-  if (::flatbuffers::IsOutRange(e, code::ok, code::user_name_invalid)) return "";
+  if (::flatbuffers::IsOutRange(e, code::ok, code::object_despawn_fail)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamescode()[index];
 }

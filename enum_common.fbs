@@ -5,3 +5,20 @@ enum sql_type : uint8
 	info = 0
 	, game
 }
+
+enum object_type : uint8
+{
+	none = 0,
+	pc,
+	npc,
+	monster,
+	drop_item,
+	teleport,
+}
+
+enum item_type : uint8
+{
+	stuff = 0,
+	equipment,
+	potion,
+}

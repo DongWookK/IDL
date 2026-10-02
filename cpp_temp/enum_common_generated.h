@@ -46,6 +46,81 @@ inline const char *EnumNamesql_type(sql_type e) {
   return EnumNamessql_type()[index];
 }
 
+enum class object_type : uint8_t {
+  none = 0,
+  pc = 1,
+  npc = 2,
+  monster = 3,
+  drop_item = 4,
+  teleport = 5,
+  MIN = none,
+  MAX = teleport
+};
+
+inline const object_type (&EnumValuesobject_type())[6] {
+  static const object_type values[] = {
+    object_type::none,
+    object_type::pc,
+    object_type::npc,
+    object_type::monster,
+    object_type::drop_item,
+    object_type::teleport
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesobject_type() {
+  static const char * const names[7] = {
+    "none",
+    "pc",
+    "npc",
+    "monster",
+    "drop_item",
+    "teleport",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameobject_type(object_type e) {
+  if (::flatbuffers::IsOutRange(e, object_type::none, object_type::teleport)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesobject_type()[index];
+}
+
+enum class item_type : uint8_t {
+  stuff = 0,
+  equipment = 1,
+  potion = 2,
+  MIN = stuff,
+  MAX = potion
+};
+
+inline const item_type (&EnumValuesitem_type())[3] {
+  static const item_type values[] = {
+    item_type::stuff,
+    item_type::equipment,
+    item_type::potion
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesitem_type() {
+  static const char * const names[4] = {
+    "stuff",
+    "equipment",
+    "potion",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameitem_type(item_type e) {
+  if (::flatbuffers::IsOutRange(e, item_type::stuff, item_type::potion)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesitem_type()[index];
+}
+
 }  // namespace common
 
 #endif  // FLATBUFFERS_GENERATED_ENUMCOMMON_COMMON_H_
