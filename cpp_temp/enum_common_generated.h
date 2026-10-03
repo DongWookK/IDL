@@ -89,15 +89,17 @@ inline const char *EnumNameobject_type(object_type e) {
 }
 
 enum class item_type : uint8_t {
-  stuff = 0,
-  equipment = 1,
-  potion = 2,
-  MIN = stuff,
+  none = 0,
+  stuff = 1,
+  equipment = 2,
+  potion = 3,
+  MIN = none,
   MAX = potion
 };
 
-inline const item_type (&EnumValuesitem_type())[3] {
+inline const item_type (&EnumValuesitem_type())[4] {
   static const item_type values[] = {
+    item_type::none,
     item_type::stuff,
     item_type::equipment,
     item_type::potion
@@ -106,7 +108,8 @@ inline const item_type (&EnumValuesitem_type())[3] {
 }
 
 inline const char * const *EnumNamesitem_type() {
-  static const char * const names[4] = {
+  static const char * const names[5] = {
+    "none",
     "stuff",
     "equipment",
     "potion",
@@ -116,7 +119,7 @@ inline const char * const *EnumNamesitem_type() {
 }
 
 inline const char *EnumNameitem_type(item_type e) {
-  if (::flatbuffers::IsOutRange(e, item_type::stuff, item_type::potion)) return "";
+  if (::flatbuffers::IsOutRange(e, item_type::none, item_type::potion)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesitem_type()[index];
 }

@@ -18,7 +18,8 @@ enum object_type : uint8
 
 enum item_type : uint8
 {
-	stuff = 0,
+	none = 0,
+	stuff,
 	equipment,
 	potion,
 }
