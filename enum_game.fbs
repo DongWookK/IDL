@@ -8,4 +8,9 @@ enum tr_type : uint16
 	UserLogoutReq,
 	UserLogoutAck,
 	Nak,
+	PcCreateReq,
+	PcCreateAck,
+	PcSelectReq,
+	PcSelectAck,
+	PcListNotify,
 }

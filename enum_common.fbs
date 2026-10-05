@@ -23,3 +23,9 @@ enum item_type : uint8
 	equipment,
 	potion,
 }
+
+enum pc_type : uint8
+{
+	knight = 0,
+	archer,
+}

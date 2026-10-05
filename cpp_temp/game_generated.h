@@ -39,6 +39,32 @@ struct Nak;
 struct NakBuilder;
 struct NakT;
 
+struct Vec3;
+
+struct PcCreateReq;
+struct PcCreateReqBuilder;
+struct PcCreateReqT;
+
+struct PcCreateAck;
+struct PcCreateAckBuilder;
+struct PcCreateAckT;
+
+struct PcSelectReq;
+struct PcSelectReqBuilder;
+struct PcSelectReqT;
+
+struct PcSelectAck;
+struct PcSelectAckBuilder;
+struct PcSelectAckT;
+
+struct PcSummary;
+struct PcSummaryBuilder;
+struct PcSummaryT;
+
+struct PcListNotify;
+struct PcListNotifyBuilder;
+struct PcListNotifyT;
+
 bool operator==(const TestEchoT &lhs, const TestEchoT &rhs);
 bool operator!=(const TestEchoT &lhs, const TestEchoT &rhs);
 bool operator==(const UserLoginReqT &lhs, const UserLoginReqT &rhs);
@@ -51,6 +77,66 @@ bool operator==(const UserLogoutAckT &lhs, const UserLogoutAckT &rhs);
 bool operator!=(const UserLogoutAckT &lhs, const UserLogoutAckT &rhs);
 bool operator==(const NakT &lhs, const NakT &rhs);
 bool operator!=(const NakT &lhs, const NakT &rhs);
+bool operator==(const Vec3 &lhs, const Vec3 &rhs);
+bool operator!=(const Vec3 &lhs, const Vec3 &rhs);
+bool operator==(const PcCreateReqT &lhs, const PcCreateReqT &rhs);
+bool operator!=(const PcCreateReqT &lhs, const PcCreateReqT &rhs);
+bool operator==(const PcCreateAckT &lhs, const PcCreateAckT &rhs);
+bool operator!=(const PcCreateAckT &lhs, const PcCreateAckT &rhs);
+bool operator==(const PcSelectReqT &lhs, const PcSelectReqT &rhs);
+bool operator!=(const PcSelectReqT &lhs, const PcSelectReqT &rhs);
+bool operator==(const PcSelectAckT &lhs, const PcSelectAckT &rhs);
+bool operator!=(const PcSelectAckT &lhs, const PcSelectAckT &rhs);
+bool operator==(const PcSummaryT &lhs, const PcSummaryT &rhs);
+bool operator!=(const PcSummaryT &lhs, const PcSummaryT &rhs);
+bool operator==(const PcListNotifyT &lhs, const PcListNotifyT &rhs);
+bool operator!=(const PcListNotifyT &lhs, const PcListNotifyT &rhs);
+
+FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vec3 FLATBUFFERS_FINAL_CLASS {
+ private:
+  float x_;
+  float y_;
+  float z_;
+
+ public:
+  struct Traits;
+  Vec3()
+      : x_(0),
+        y_(0),
+        z_(0) {
+  }
+  Vec3(float _x, float _y, float _z)
+      : x_(::flatbuffers::EndianScalar(_x)),
+        y_(::flatbuffers::EndianScalar(_y)),
+        z_(::flatbuffers::EndianScalar(_z)) {
+  }
+  float x() const {
+    return ::flatbuffers::EndianScalar(x_);
+  }
+  float y() const {
+    return ::flatbuffers::EndianScalar(y_);
+  }
+  float z() const {
+    return ::flatbuffers::EndianScalar(z_);
+  }
+};
+FLATBUFFERS_STRUCT_END(Vec3, 12);
+
+inline bool operator==(const Vec3 &lhs, const Vec3 &rhs) {
+  return
+      (lhs.x() == rhs.x()) &&
+      (lhs.y() == rhs.y()) &&
+      (lhs.z() == rhs.z());
+}
+
+inline bool operator!=(const Vec3 &lhs, const Vec3 &rhs) {
+    return !(lhs == rhs);
+}
+
+
+struct Vec3::Traits {
+  using type = Vec3;
+};
 
 struct TestEchoT : public ::flatbuffers::NativeTable {
   typedef TestEcho TableType;
@@ -533,6 +619,664 @@ struct Nak::Traits {
 
 ::flatbuffers::Offset<Nak> CreateNak(::flatbuffers::FlatBufferBuilder &_fbb, const NakT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct PcCreateReqT : public ::flatbuffers::NativeTable {
+  typedef PcCreateReq TableType;
+  uint16_t type = 0;
+  std::string pc_name{};
+  uint8_t pc_type = 0;
+};
+
+struct PcCreateReq FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef PcCreateReqT NativeTableType;
+  typedef PcCreateReqBuilder Builder;
+  struct Traits;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_TYPE = 4,
+    VT_PC_NAME = 6,
+    VT_PC_TYPE = 8
+  };
+  uint16_t type() const {
+    return GetField<uint16_t>(VT_TYPE, 0);
+  }
+  const ::flatbuffers::String *pc_name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_PC_NAME);
+  }
+  uint8_t pc_type() const {
+    return GetField<uint8_t>(VT_PC_TYPE, 0);
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint16_t>(verifier, VT_TYPE, 2) &&
+           VerifyOffset(verifier, VT_PC_NAME) &&
+           verifier.VerifyString(pc_name()) &&
+           VerifyField<uint8_t>(verifier, VT_PC_TYPE, 1) &&
+           verifier.EndTable();
+  }
+  PcCreateReqT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(PcCreateReqT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<PcCreateReq> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PcCreateReqT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct PcCreateReqBuilder {
+  typedef PcCreateReq Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_type(uint16_t type) {
+    fbb_.AddElement<uint16_t>(PcCreateReq::VT_TYPE, type, 0);
+  }
+  void add_pc_name(::flatbuffers::Offset<::flatbuffers::String> pc_name) {
+    fbb_.AddOffset(PcCreateReq::VT_PC_NAME, pc_name);
+  }
+  void add_pc_type(uint8_t pc_type) {
+    fbb_.AddElement<uint8_t>(PcCreateReq::VT_PC_TYPE, pc_type, 0);
+  }
+  explicit PcCreateReqBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<PcCreateReq> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<PcCreateReq>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<PcCreateReq> CreatePcCreateReq(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint16_t type = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> pc_name = 0,
+    uint8_t pc_type = 0) {
+  PcCreateReqBuilder builder_(_fbb);
+  builder_.add_pc_name(pc_name);
+  builder_.add_type(type);
+  builder_.add_pc_type(pc_type);
+  return builder_.Finish();
+}
+
+struct PcCreateReq::Traits {
+  using type = PcCreateReq;
+  static auto constexpr Create = CreatePcCreateReq;
+};
+
+inline ::flatbuffers::Offset<PcCreateReq> CreatePcCreateReqDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint16_t type = 0,
+    const char *pc_name = nullptr,
+    uint8_t pc_type = 0) {
+  auto pc_name__ = pc_name ? _fbb.CreateString(pc_name) : 0;
+  return game::CreatePcCreateReq(
+      _fbb,
+      type,
+      pc_name__,
+      pc_type);
+}
+
+::flatbuffers::Offset<PcCreateReq> CreatePcCreateReq(::flatbuffers::FlatBufferBuilder &_fbb, const PcCreateReqT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct PcCreateAckT : public ::flatbuffers::NativeTable {
+  typedef PcCreateAck TableType;
+  uint16_t type = 0;
+  int64_t pc_no = 0;
+  std::string pc_name{};
+  uint8_t pc_type = 0;
+};
+
+struct PcCreateAck FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef PcCreateAckT NativeTableType;
+  typedef PcCreateAckBuilder Builder;
+  struct Traits;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_TYPE = 4,
+    VT_PC_NO = 6,
+    VT_PC_NAME = 8,
+    VT_PC_TYPE = 10
+  };
+  uint16_t type() const {
+    return GetField<uint16_t>(VT_TYPE, 0);
+  }
+  int64_t pc_no() const {
+    return GetField<int64_t>(VT_PC_NO, 0);
+  }
+  const ::flatbuffers::String *pc_name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_PC_NAME);
+  }
+  uint8_t pc_type() const {
+    return GetField<uint8_t>(VT_PC_TYPE, 0);
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint16_t>(verifier, VT_TYPE, 2) &&
+           VerifyField<int64_t>(verifier, VT_PC_NO, 8) &&
+           VerifyOffset(verifier, VT_PC_NAME) &&
+           verifier.VerifyString(pc_name()) &&
+           VerifyField<uint8_t>(verifier, VT_PC_TYPE, 1) &&
+           verifier.EndTable();
+  }
+  PcCreateAckT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(PcCreateAckT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<PcCreateAck> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PcCreateAckT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct PcCreateAckBuilder {
+  typedef PcCreateAck Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_type(uint16_t type) {
+    fbb_.AddElement<uint16_t>(PcCreateAck::VT_TYPE, type, 0);
+  }
+  void add_pc_no(int64_t pc_no) {
+    fbb_.AddElement<int64_t>(PcCreateAck::VT_PC_NO, pc_no, 0);
+  }
+  void add_pc_name(::flatbuffers::Offset<::flatbuffers::String> pc_name) {
+    fbb_.AddOffset(PcCreateAck::VT_PC_NAME, pc_name);
+  }
+  void add_pc_type(uint8_t pc_type) {
+    fbb_.AddElement<uint8_t>(PcCreateAck::VT_PC_TYPE, pc_type, 0);
+  }
+  explicit PcCreateAckBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<PcCreateAck> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<PcCreateAck>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<PcCreateAck> CreatePcCreateAck(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint16_t type = 0,
+    int64_t pc_no = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> pc_name = 0,
+    uint8_t pc_type = 0) {
+  PcCreateAckBuilder builder_(_fbb);
+  builder_.add_pc_no(pc_no);
+  builder_.add_pc_name(pc_name);
+  builder_.add_type(type);
+  builder_.add_pc_type(pc_type);
+  return builder_.Finish();
+}
+
+struct PcCreateAck::Traits {
+  using type = PcCreateAck;
+  static auto constexpr Create = CreatePcCreateAck;
+};
+
+inline ::flatbuffers::Offset<PcCreateAck> CreatePcCreateAckDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint16_t type = 0,
+    int64_t pc_no = 0,
+    const char *pc_name = nullptr,
+    uint8_t pc_type = 0) {
+  auto pc_name__ = pc_name ? _fbb.CreateString(pc_name) : 0;
+  return game::CreatePcCreateAck(
+      _fbb,
+      type,
+      pc_no,
+      pc_name__,
+      pc_type);
+}
+
+::flatbuffers::Offset<PcCreateAck> CreatePcCreateAck(::flatbuffers::FlatBufferBuilder &_fbb, const PcCreateAckT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct PcSelectReqT : public ::flatbuffers::NativeTable {
+  typedef PcSelectReq TableType;
+  uint16_t type = 0;
+  int64_t pc_no = 0;
+};
+
+struct PcSelectReq FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef PcSelectReqT NativeTableType;
+  typedef PcSelectReqBuilder Builder;
+  struct Traits;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_TYPE = 4,
+    VT_PC_NO = 6
+  };
+  uint16_t type() const {
+    return GetField<uint16_t>(VT_TYPE, 0);
+  }
+  int64_t pc_no() const {
+    return GetField<int64_t>(VT_PC_NO, 0);
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint16_t>(verifier, VT_TYPE, 2) &&
+           VerifyField<int64_t>(verifier, VT_PC_NO, 8) &&
+           verifier.EndTable();
+  }
+  PcSelectReqT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(PcSelectReqT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<PcSelectReq> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PcSelectReqT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct PcSelectReqBuilder {
+  typedef PcSelectReq Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_type(uint16_t type) {
+    fbb_.AddElement<uint16_t>(PcSelectReq::VT_TYPE, type, 0);
+  }
+  void add_pc_no(int64_t pc_no) {
+    fbb_.AddElement<int64_t>(PcSelectReq::VT_PC_NO, pc_no, 0);
+  }
+  explicit PcSelectReqBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<PcSelectReq> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<PcSelectReq>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<PcSelectReq> CreatePcSelectReq(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint16_t type = 0,
+    int64_t pc_no = 0) {
+  PcSelectReqBuilder builder_(_fbb);
+  builder_.add_pc_no(pc_no);
+  builder_.add_type(type);
+  return builder_.Finish();
+}
+
+struct PcSelectReq::Traits {
+  using type = PcSelectReq;
+  static auto constexpr Create = CreatePcSelectReq;
+};
+
+::flatbuffers::Offset<PcSelectReq> CreatePcSelectReq(::flatbuffers::FlatBufferBuilder &_fbb, const PcSelectReqT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct PcSelectAckT : public ::flatbuffers::NativeTable {
+  typedef PcSelectAck TableType;
+  uint16_t type = 0;
+  uint64_t object_id = 0;
+  int64_t pc_no = 0;
+  std::string pc_name{};
+  uint8_t pc_type = 0;
+  int32_t level = 0;
+  int64_t exp = 0;
+  int32_t hp = 0;
+  int32_t mp = 0;
+  std::unique_ptr<game::Vec3> pos{};
+  PcSelectAckT() = default;
+  PcSelectAckT(const PcSelectAckT &o);
+  PcSelectAckT(PcSelectAckT&&) FLATBUFFERS_NOEXCEPT = default;
+  PcSelectAckT &operator=(PcSelectAckT o) FLATBUFFERS_NOEXCEPT;
+};
+
+struct PcSelectAck FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef PcSelectAckT NativeTableType;
+  typedef PcSelectAckBuilder Builder;
+  struct Traits;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_TYPE = 4,
+    VT_OBJECT_ID = 6,
+    VT_PC_NO = 8,
+    VT_PC_NAME = 10,
+    VT_PC_TYPE = 12,
+    VT_LEVEL = 14,
+    VT_EXP = 16,
+    VT_HP = 18,
+    VT_MP = 20,
+    VT_POS = 22
+  };
+  uint16_t type() const {
+    return GetField<uint16_t>(VT_TYPE, 0);
+  }
+  uint64_t object_id() const {
+    return GetField<uint64_t>(VT_OBJECT_ID, 0);
+  }
+  int64_t pc_no() const {
+    return GetField<int64_t>(VT_PC_NO, 0);
+  }
+  const ::flatbuffers::String *pc_name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_PC_NAME);
+  }
+  uint8_t pc_type() const {
+    return GetField<uint8_t>(VT_PC_TYPE, 0);
+  }
+  int32_t level() const {
+    return GetField<int32_t>(VT_LEVEL, 0);
+  }
+  int64_t exp() const {
+    return GetField<int64_t>(VT_EXP, 0);
+  }
+  int32_t hp() const {
+    return GetField<int32_t>(VT_HP, 0);
+  }
+  int32_t mp() const {
+    return GetField<int32_t>(VT_MP, 0);
+  }
+  const game::Vec3 *pos() const {
+    return GetStruct<const game::Vec3 *>(VT_POS);
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint16_t>(verifier, VT_TYPE, 2) &&
+           VerifyField<uint64_t>(verifier, VT_OBJECT_ID, 8) &&
+           VerifyField<int64_t>(verifier, VT_PC_NO, 8) &&
+           VerifyOffset(verifier, VT_PC_NAME) &&
+           verifier.VerifyString(pc_name()) &&
+           VerifyField<uint8_t>(verifier, VT_PC_TYPE, 1) &&
+           VerifyField<int32_t>(verifier, VT_LEVEL, 4) &&
+           VerifyField<int64_t>(verifier, VT_EXP, 8) &&
+           VerifyField<int32_t>(verifier, VT_HP, 4) &&
+           VerifyField<int32_t>(verifier, VT_MP, 4) &&
+           VerifyField<game::Vec3>(verifier, VT_POS, 4) &&
+           verifier.EndTable();
+  }
+  PcSelectAckT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(PcSelectAckT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<PcSelectAck> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PcSelectAckT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct PcSelectAckBuilder {
+  typedef PcSelectAck Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_type(uint16_t type) {
+    fbb_.AddElement<uint16_t>(PcSelectAck::VT_TYPE, type, 0);
+  }
+  void add_object_id(uint64_t object_id) {
+    fbb_.AddElement<uint64_t>(PcSelectAck::VT_OBJECT_ID, object_id, 0);
+  }
+  void add_pc_no(int64_t pc_no) {
+    fbb_.AddElement<int64_t>(PcSelectAck::VT_PC_NO, pc_no, 0);
+  }
+  void add_pc_name(::flatbuffers::Offset<::flatbuffers::String> pc_name) {
+    fbb_.AddOffset(PcSelectAck::VT_PC_NAME, pc_name);
+  }
+  void add_pc_type(uint8_t pc_type) {
+    fbb_.AddElement<uint8_t>(PcSelectAck::VT_PC_TYPE, pc_type, 0);
+  }
+  void add_level(int32_t level) {
+    fbb_.AddElement<int32_t>(PcSelectAck::VT_LEVEL, level, 0);
+  }
+  void add_exp(int64_t exp) {
+    fbb_.AddElement<int64_t>(PcSelectAck::VT_EXP, exp, 0);
+  }
+  void add_hp(int32_t hp) {
+    fbb_.AddElement<int32_t>(PcSelectAck::VT_HP, hp, 0);
+  }
+  void add_mp(int32_t mp) {
+    fbb_.AddElement<int32_t>(PcSelectAck::VT_MP, mp, 0);
+  }
+  void add_pos(const game::Vec3 *pos) {
+    fbb_.AddStruct(PcSelectAck::VT_POS, pos);
+  }
+  explicit PcSelectAckBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<PcSelectAck> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<PcSelectAck>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<PcSelectAck> CreatePcSelectAck(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint16_t type = 0,
+    uint64_t object_id = 0,
+    int64_t pc_no = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> pc_name = 0,
+    uint8_t pc_type = 0,
+    int32_t level = 0,
+    int64_t exp = 0,
+    int32_t hp = 0,
+    int32_t mp = 0,
+    const game::Vec3 *pos = nullptr) {
+  PcSelectAckBuilder builder_(_fbb);
+  builder_.add_exp(exp);
+  builder_.add_pc_no(pc_no);
+  builder_.add_object_id(object_id);
+  builder_.add_pos(pos);
+  builder_.add_mp(mp);
+  builder_.add_hp(hp);
+  builder_.add_level(level);
+  builder_.add_pc_name(pc_name);
+  builder_.add_type(type);
+  builder_.add_pc_type(pc_type);
+  return builder_.Finish();
+}
+
+struct PcSelectAck::Traits {
+  using type = PcSelectAck;
+  static auto constexpr Create = CreatePcSelectAck;
+};
+
+inline ::flatbuffers::Offset<PcSelectAck> CreatePcSelectAckDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint16_t type = 0,
+    uint64_t object_id = 0,
+    int64_t pc_no = 0,
+    const char *pc_name = nullptr,
+    uint8_t pc_type = 0,
+    int32_t level = 0,
+    int64_t exp = 0,
+    int32_t hp = 0,
+    int32_t mp = 0,
+    const game::Vec3 *pos = nullptr) {
+  auto pc_name__ = pc_name ? _fbb.CreateString(pc_name) : 0;
+  return game::CreatePcSelectAck(
+      _fbb,
+      type,
+      object_id,
+      pc_no,
+      pc_name__,
+      pc_type,
+      level,
+      exp,
+      hp,
+      mp,
+      pos);
+}
+
+::flatbuffers::Offset<PcSelectAck> CreatePcSelectAck(::flatbuffers::FlatBufferBuilder &_fbb, const PcSelectAckT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct PcSummaryT : public ::flatbuffers::NativeTable {
+  typedef PcSummary TableType;
+  int64_t pc_no = 0;
+  std::string pc_name{};
+  uint8_t pc_type = 0;
+  int32_t level = 0;
+};
+
+struct PcSummary FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef PcSummaryT NativeTableType;
+  typedef PcSummaryBuilder Builder;
+  struct Traits;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_PC_NO = 4,
+    VT_PC_NAME = 6,
+    VT_PC_TYPE = 8,
+    VT_LEVEL = 10
+  };
+  int64_t pc_no() const {
+    return GetField<int64_t>(VT_PC_NO, 0);
+  }
+  const ::flatbuffers::String *pc_name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_PC_NAME);
+  }
+  uint8_t pc_type() const {
+    return GetField<uint8_t>(VT_PC_TYPE, 0);
+  }
+  int32_t level() const {
+    return GetField<int32_t>(VT_LEVEL, 0);
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int64_t>(verifier, VT_PC_NO, 8) &&
+           VerifyOffset(verifier, VT_PC_NAME) &&
+           verifier.VerifyString(pc_name()) &&
+           VerifyField<uint8_t>(verifier, VT_PC_TYPE, 1) &&
+           VerifyField<int32_t>(verifier, VT_LEVEL, 4) &&
+           verifier.EndTable();
+  }
+  PcSummaryT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(PcSummaryT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<PcSummary> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PcSummaryT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct PcSummaryBuilder {
+  typedef PcSummary Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_pc_no(int64_t pc_no) {
+    fbb_.AddElement<int64_t>(PcSummary::VT_PC_NO, pc_no, 0);
+  }
+  void add_pc_name(::flatbuffers::Offset<::flatbuffers::String> pc_name) {
+    fbb_.AddOffset(PcSummary::VT_PC_NAME, pc_name);
+  }
+  void add_pc_type(uint8_t pc_type) {
+    fbb_.AddElement<uint8_t>(PcSummary::VT_PC_TYPE, pc_type, 0);
+  }
+  void add_level(int32_t level) {
+    fbb_.AddElement<int32_t>(PcSummary::VT_LEVEL, level, 0);
+  }
+  explicit PcSummaryBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<PcSummary> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<PcSummary>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<PcSummary> CreatePcSummary(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    int64_t pc_no = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> pc_name = 0,
+    uint8_t pc_type = 0,
+    int32_t level = 0) {
+  PcSummaryBuilder builder_(_fbb);
+  builder_.add_pc_no(pc_no);
+  builder_.add_level(level);
+  builder_.add_pc_name(pc_name);
+  builder_.add_pc_type(pc_type);
+  return builder_.Finish();
+}
+
+struct PcSummary::Traits {
+  using type = PcSummary;
+  static auto constexpr Create = CreatePcSummary;
+};
+
+inline ::flatbuffers::Offset<PcSummary> CreatePcSummaryDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    int64_t pc_no = 0,
+    const char *pc_name = nullptr,
+    uint8_t pc_type = 0,
+    int32_t level = 0) {
+  auto pc_name__ = pc_name ? _fbb.CreateString(pc_name) : 0;
+  return game::CreatePcSummary(
+      _fbb,
+      pc_no,
+      pc_name__,
+      pc_type,
+      level);
+}
+
+::flatbuffers::Offset<PcSummary> CreatePcSummary(::flatbuffers::FlatBufferBuilder &_fbb, const PcSummaryT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct PcListNotifyT : public ::flatbuffers::NativeTable {
+  typedef PcListNotify TableType;
+  uint16_t type = 0;
+  std::vector<std::unique_ptr<game::PcSummaryT>> pc_list{};
+  PcListNotifyT() = default;
+  PcListNotifyT(const PcListNotifyT &o);
+  PcListNotifyT(PcListNotifyT&&) FLATBUFFERS_NOEXCEPT = default;
+  PcListNotifyT &operator=(PcListNotifyT o) FLATBUFFERS_NOEXCEPT;
+};
+
+struct PcListNotify FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef PcListNotifyT NativeTableType;
+  typedef PcListNotifyBuilder Builder;
+  struct Traits;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_TYPE = 4,
+    VT_PC_LIST = 6
+  };
+  uint16_t type() const {
+    return GetField<uint16_t>(VT_TYPE, 0);
+  }
+  const ::flatbuffers::Vector<::flatbuffers::Offset<game::PcSummary>> *pc_list() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<game::PcSummary>> *>(VT_PC_LIST);
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint16_t>(verifier, VT_TYPE, 2) &&
+           VerifyOffset(verifier, VT_PC_LIST) &&
+           verifier.VerifyVector(pc_list()) &&
+           verifier.VerifyVectorOfTables(pc_list()) &&
+           verifier.EndTable();
+  }
+  PcListNotifyT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(PcListNotifyT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<PcListNotify> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PcListNotifyT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct PcListNotifyBuilder {
+  typedef PcListNotify Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_type(uint16_t type) {
+    fbb_.AddElement<uint16_t>(PcListNotify::VT_TYPE, type, 0);
+  }
+  void add_pc_list(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<game::PcSummary>>> pc_list) {
+    fbb_.AddOffset(PcListNotify::VT_PC_LIST, pc_list);
+  }
+  explicit PcListNotifyBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<PcListNotify> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<PcListNotify>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<PcListNotify> CreatePcListNotify(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint16_t type = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<game::PcSummary>>> pc_list = 0) {
+  PcListNotifyBuilder builder_(_fbb);
+  builder_.add_pc_list(pc_list);
+  builder_.add_type(type);
+  return builder_.Finish();
+}
+
+struct PcListNotify::Traits {
+  using type = PcListNotify;
+  static auto constexpr Create = CreatePcListNotify;
+};
+
+inline ::flatbuffers::Offset<PcListNotify> CreatePcListNotifyDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint16_t type = 0,
+    const std::vector<::flatbuffers::Offset<game::PcSummary>> *pc_list = nullptr) {
+  auto pc_list__ = pc_list ? _fbb.CreateVector<::flatbuffers::Offset<game::PcSummary>>(*pc_list) : 0;
+  return game::CreatePcListNotify(
+      _fbb,
+      type,
+      pc_list__);
+}
+
+::flatbuffers::Offset<PcListNotify> CreatePcListNotify(::flatbuffers::FlatBufferBuilder &_fbb, const PcListNotifyT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 
 inline bool operator==(const TestEchoT &lhs, const TestEchoT &rhs) {
   return
@@ -785,6 +1529,343 @@ inline ::flatbuffers::Offset<Nak> Nak::Pack(::flatbuffers::FlatBufferBuilder &_f
       _type,
       _req_type,
       _error_code);
+}
+
+
+inline bool operator==(const PcCreateReqT &lhs, const PcCreateReqT &rhs) {
+  return
+      (lhs.type == rhs.type) &&
+      (lhs.pc_name == rhs.pc_name) &&
+      (lhs.pc_type == rhs.pc_type);
+}
+
+inline bool operator!=(const PcCreateReqT &lhs, const PcCreateReqT &rhs) {
+    return !(lhs == rhs);
+}
+
+
+inline PcCreateReqT *PcCreateReq::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::make_unique<PcCreateReqT>();
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void PcCreateReq::UnPackTo(PcCreateReqT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = type(); _o->type = _e; }
+  { auto _e = pc_name(); if (_e) _o->pc_name = _e->str(); }
+  { auto _e = pc_type(); _o->pc_type = _e; }
+}
+
+inline ::flatbuffers::Offset<PcCreateReq> CreatePcCreateReq(::flatbuffers::FlatBufferBuilder &_fbb, const PcCreateReqT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return PcCreateReq::Pack(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<PcCreateReq> PcCreateReq::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PcCreateReqT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const PcCreateReqT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _type = _o->type;
+  auto _pc_name = _o->pc_name.empty() ? 0 : _fbb.CreateString(_o->pc_name);
+  auto _pc_type = _o->pc_type;
+  return game::CreatePcCreateReq(
+      _fbb,
+      _type,
+      _pc_name,
+      _pc_type);
+}
+
+
+inline bool operator==(const PcCreateAckT &lhs, const PcCreateAckT &rhs) {
+  return
+      (lhs.type == rhs.type) &&
+      (lhs.pc_no == rhs.pc_no) &&
+      (lhs.pc_name == rhs.pc_name) &&
+      (lhs.pc_type == rhs.pc_type);
+}
+
+inline bool operator!=(const PcCreateAckT &lhs, const PcCreateAckT &rhs) {
+    return !(lhs == rhs);
+}
+
+
+inline PcCreateAckT *PcCreateAck::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::make_unique<PcCreateAckT>();
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void PcCreateAck::UnPackTo(PcCreateAckT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = type(); _o->type = _e; }
+  { auto _e = pc_no(); _o->pc_no = _e; }
+  { auto _e = pc_name(); if (_e) _o->pc_name = _e->str(); }
+  { auto _e = pc_type(); _o->pc_type = _e; }
+}
+
+inline ::flatbuffers::Offset<PcCreateAck> CreatePcCreateAck(::flatbuffers::FlatBufferBuilder &_fbb, const PcCreateAckT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return PcCreateAck::Pack(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<PcCreateAck> PcCreateAck::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PcCreateAckT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const PcCreateAckT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _type = _o->type;
+  auto _pc_no = _o->pc_no;
+  auto _pc_name = _o->pc_name.empty() ? 0 : _fbb.CreateString(_o->pc_name);
+  auto _pc_type = _o->pc_type;
+  return game::CreatePcCreateAck(
+      _fbb,
+      _type,
+      _pc_no,
+      _pc_name,
+      _pc_type);
+}
+
+
+inline bool operator==(const PcSelectReqT &lhs, const PcSelectReqT &rhs) {
+  return
+      (lhs.type == rhs.type) &&
+      (lhs.pc_no == rhs.pc_no);
+}
+
+inline bool operator!=(const PcSelectReqT &lhs, const PcSelectReqT &rhs) {
+    return !(lhs == rhs);
+}
+
+
+inline PcSelectReqT *PcSelectReq::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::make_unique<PcSelectReqT>();
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void PcSelectReq::UnPackTo(PcSelectReqT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = type(); _o->type = _e; }
+  { auto _e = pc_no(); _o->pc_no = _e; }
+}
+
+inline ::flatbuffers::Offset<PcSelectReq> CreatePcSelectReq(::flatbuffers::FlatBufferBuilder &_fbb, const PcSelectReqT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return PcSelectReq::Pack(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<PcSelectReq> PcSelectReq::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PcSelectReqT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const PcSelectReqT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _type = _o->type;
+  auto _pc_no = _o->pc_no;
+  return game::CreatePcSelectReq(
+      _fbb,
+      _type,
+      _pc_no);
+}
+
+
+inline bool operator==(const PcSelectAckT &lhs, const PcSelectAckT &rhs) {
+  return
+      (lhs.type == rhs.type) &&
+      (lhs.object_id == rhs.object_id) &&
+      (lhs.pc_no == rhs.pc_no) &&
+      (lhs.pc_name == rhs.pc_name) &&
+      (lhs.pc_type == rhs.pc_type) &&
+      (lhs.level == rhs.level) &&
+      (lhs.exp == rhs.exp) &&
+      (lhs.hp == rhs.hp) &&
+      (lhs.mp == rhs.mp) &&
+      ((lhs.pos == rhs.pos) || (lhs.pos && rhs.pos && *lhs.pos == *rhs.pos));
+}
+
+inline bool operator!=(const PcSelectAckT &lhs, const PcSelectAckT &rhs) {
+    return !(lhs == rhs);
+}
+
+
+inline PcSelectAckT::PcSelectAckT(const PcSelectAckT &o)
+      : type(o.type),
+        object_id(o.object_id),
+        pc_no(o.pc_no),
+        pc_name(o.pc_name),
+        pc_type(o.pc_type),
+        level(o.level),
+        exp(o.exp),
+        hp(o.hp),
+        mp(o.mp),
+        pos((o.pos) ? new game::Vec3(*o.pos) : nullptr) {
+}
+
+inline PcSelectAckT &PcSelectAckT::operator=(PcSelectAckT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(type, o.type);
+  std::swap(object_id, o.object_id);
+  std::swap(pc_no, o.pc_no);
+  std::swap(pc_name, o.pc_name);
+  std::swap(pc_type, o.pc_type);
+  std::swap(level, o.level);
+  std::swap(exp, o.exp);
+  std::swap(hp, o.hp);
+  std::swap(mp, o.mp);
+  std::swap(pos, o.pos);
+  return *this;
+}
+
+inline PcSelectAckT *PcSelectAck::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::make_unique<PcSelectAckT>();
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void PcSelectAck::UnPackTo(PcSelectAckT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = type(); _o->type = _e; }
+  { auto _e = object_id(); _o->object_id = _e; }
+  { auto _e = pc_no(); _o->pc_no = _e; }
+  { auto _e = pc_name(); if (_e) _o->pc_name = _e->str(); }
+  { auto _e = pc_type(); _o->pc_type = _e; }
+  { auto _e = level(); _o->level = _e; }
+  { auto _e = exp(); _o->exp = _e; }
+  { auto _e = hp(); _o->hp = _e; }
+  { auto _e = mp(); _o->mp = _e; }
+  { auto _e = pos(); if (_e) _o->pos = std::unique_ptr<game::Vec3>(new game::Vec3(*_e)); }
+}
+
+inline ::flatbuffers::Offset<PcSelectAck> CreatePcSelectAck(::flatbuffers::FlatBufferBuilder &_fbb, const PcSelectAckT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return PcSelectAck::Pack(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<PcSelectAck> PcSelectAck::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PcSelectAckT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const PcSelectAckT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _type = _o->type;
+  auto _object_id = _o->object_id;
+  auto _pc_no = _o->pc_no;
+  auto _pc_name = _o->pc_name.empty() ? 0 : _fbb.CreateString(_o->pc_name);
+  auto _pc_type = _o->pc_type;
+  auto _level = _o->level;
+  auto _exp = _o->exp;
+  auto _hp = _o->hp;
+  auto _mp = _o->mp;
+  auto _pos = _o->pos ? _o->pos.get() : nullptr;
+  return game::CreatePcSelectAck(
+      _fbb,
+      _type,
+      _object_id,
+      _pc_no,
+      _pc_name,
+      _pc_type,
+      _level,
+      _exp,
+      _hp,
+      _mp,
+      _pos);
+}
+
+
+inline bool operator==(const PcSummaryT &lhs, const PcSummaryT &rhs) {
+  return
+      (lhs.pc_no == rhs.pc_no) &&
+      (lhs.pc_name == rhs.pc_name) &&
+      (lhs.pc_type == rhs.pc_type) &&
+      (lhs.level == rhs.level);
+}
+
+inline bool operator!=(const PcSummaryT &lhs, const PcSummaryT &rhs) {
+    return !(lhs == rhs);
+}
+
+
+inline PcSummaryT *PcSummary::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::make_unique<PcSummaryT>();
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void PcSummary::UnPackTo(PcSummaryT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = pc_no(); _o->pc_no = _e; }
+  { auto _e = pc_name(); if (_e) _o->pc_name = _e->str(); }
+  { auto _e = pc_type(); _o->pc_type = _e; }
+  { auto _e = level(); _o->level = _e; }
+}
+
+inline ::flatbuffers::Offset<PcSummary> CreatePcSummary(::flatbuffers::FlatBufferBuilder &_fbb, const PcSummaryT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return PcSummary::Pack(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<PcSummary> PcSummary::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PcSummaryT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const PcSummaryT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _pc_no = _o->pc_no;
+  auto _pc_name = _o->pc_name.empty() ? 0 : _fbb.CreateString(_o->pc_name);
+  auto _pc_type = _o->pc_type;
+  auto _level = _o->level;
+  return game::CreatePcSummary(
+      _fbb,
+      _pc_no,
+      _pc_name,
+      _pc_type,
+      _level);
+}
+
+
+inline bool operator==(const PcListNotifyT &lhs, const PcListNotifyT &rhs) {
+  return
+      (lhs.type == rhs.type) &&
+      (lhs.pc_list.size() == rhs.pc_list.size() && std::equal(lhs.pc_list.cbegin(), lhs.pc_list.cend(), rhs.pc_list.cbegin(), [](std::unique_ptr<game::PcSummaryT> const &a, std::unique_ptr<game::PcSummaryT> const &b) { return (a == b) || (a && b && *a == *b); }));
+}
+
+inline bool operator!=(const PcListNotifyT &lhs, const PcListNotifyT &rhs) {
+    return !(lhs == rhs);
+}
+
+
+inline PcListNotifyT::PcListNotifyT(const PcListNotifyT &o)
+      : type(o.type) {
+  pc_list.reserve(o.pc_list.size());
+  for (const auto &pc_list_ : o.pc_list) { pc_list.emplace_back((pc_list_) ? new game::PcSummaryT(*pc_list_) : nullptr); }
+}
+
+inline PcListNotifyT &PcListNotifyT::operator=(PcListNotifyT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(type, o.type);
+  std::swap(pc_list, o.pc_list);
+  return *this;
+}
+
+inline PcListNotifyT *PcListNotify::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::make_unique<PcListNotifyT>();
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void PcListNotify::UnPackTo(PcListNotifyT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = type(); _o->type = _e; }
+  { auto _e = pc_list(); if (_e) { _o->pc_list.resize(_e->size()); for (::flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { if(_o->pc_list[_i]) { _e->Get(_i)->UnPackTo(_o->pc_list[_i].get(), _resolver); } else { _o->pc_list[_i] = std::unique_ptr<game::PcSummaryT>(_e->Get(_i)->UnPack(_resolver)); } } } else { _o->pc_list.resize(0); } }
+}
+
+inline ::flatbuffers::Offset<PcListNotify> CreatePcListNotify(::flatbuffers::FlatBufferBuilder &_fbb, const PcListNotifyT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return PcListNotify::Pack(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<PcListNotify> PcListNotify::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PcListNotifyT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const PcListNotifyT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _type = _o->type;
+  auto _pc_list = _o->pc_list.size() ? _fbb.CreateVector<::flatbuffers::Offset<game::PcSummary>> (_o->pc_list.size(), [](size_t i, _VectorArgs *__va) { return CreatePcSummary(*__va->__fbb, __va->__o->pc_list[i].get(), __va->__rehasher); }, &_va ) : 0;
+  return game::CreatePcListNotify(
+      _fbb,
+      _type,
+      _pc_list);
 }
 
 }  // namespace game

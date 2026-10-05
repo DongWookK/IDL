@@ -30,11 +30,18 @@ enum class code : uint16_t {
   user_name_invalid = 10,
   object_spawn_fail = 11,
   object_despawn_fail = 12,
+  pc_create_fail = 13,
+  pc_name_invalid = 14,
+  pc_type_invalid = 15,
+  pc_not_exist = 16,
+  pc_already_selected = 17,
+  pc_name_duplicate = 18,
+  pc_already_in_game = 19,
   MIN = ok,
-  MAX = object_despawn_fail
+  MAX = pc_already_in_game
 };
 
-inline const code (&EnumValuescode())[13] {
+inline const code (&EnumValuescode())[20] {
   static const code values[] = {
     code::ok,
     code::sql_fail,
@@ -48,13 +55,20 @@ inline const code (&EnumValuescode())[13] {
     code::user_already_login,
     code::user_name_invalid,
     code::object_spawn_fail,
-    code::object_despawn_fail
+    code::object_despawn_fail,
+    code::pc_create_fail,
+    code::pc_name_invalid,
+    code::pc_type_invalid,
+    code::pc_not_exist,
+    code::pc_already_selected,
+    code::pc_name_duplicate,
+    code::pc_already_in_game
   };
   return values;
 }
 
 inline const char * const *EnumNamescode() {
-  static const char * const names[14] = {
+  static const char * const names[21] = {
     "ok",
     "sql_fail",
     "sql_stmt_invalid",
@@ -68,13 +82,20 @@ inline const char * const *EnumNamescode() {
     "user_name_invalid",
     "object_spawn_fail",
     "object_despawn_fail",
+    "pc_create_fail",
+    "pc_name_invalid",
+    "pc_type_invalid",
+    "pc_not_exist",
+    "pc_already_selected",
+    "pc_name_duplicate",
+    "pc_already_in_game",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNamecode(code e) {
-  if (::flatbuffers::IsOutRange(e, code::ok, code::object_despawn_fail)) return "";
+  if (::flatbuffers::IsOutRange(e, code::ok, code::pc_already_in_game)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamescode()[index];
 }

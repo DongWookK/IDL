@@ -124,6 +124,36 @@ inline const char *EnumNameitem_type(item_type e) {
   return EnumNamesitem_type()[index];
 }
 
+enum class pc_type : uint8_t {
+  knight = 0,
+  archer = 1,
+  MIN = knight,
+  MAX = archer
+};
+
+inline const pc_type (&EnumValuespc_type())[2] {
+  static const pc_type values[] = {
+    pc_type::knight,
+    pc_type::archer
+  };
+  return values;
+}
+
+inline const char * const *EnumNamespc_type() {
+  static const char * const names[3] = {
+    "knight",
+    "archer",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNamepc_type(pc_type e) {
+  if (::flatbuffers::IsOutRange(e, pc_type::knight, pc_type::archer)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamespc_type()[index];
+}
+
 }  // namespace common
 
 #endif  // FLATBUFFERS_GENERATED_ENUMCOMMON_COMMON_H_

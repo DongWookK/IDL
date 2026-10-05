@@ -31,10 +31,65 @@ table UserLogoutAck
 	user_no: int32;
 }
 
-// 요청 처리 실패 응답 (모든 Req 공용)
 table Nak
 {
 	type: uint16;
-	req_type: uint16;		// 실패한 요청의 tr_type
-	error_code: uint16;		// error::code
+	req_type: uint16;
+	error_code: uint16;
+}
+
+struct Vec3
+{
+	x: float;
+	y: float;
+	z: float;
+}
+
+table PcCreateReq
+{
+	type: uint16;
+	pc_name: string;
+	pc_type: uint8;
+}
+
+table PcCreateAck
+{
+	type: uint16;
+	pc_no: int64;
+	pc_name: string;
+	pc_type: uint8;
+}
+
+table PcSelectReq
+{
+	type: uint16;
+	pc_no: int64;
+}
+
+table PcSelectAck
+{
+	type: uint16;
+	object_id: uint64;
+	pc_no: int64;
+	pc_name: string;
+	pc_type: uint8;
+	level: int32;
+	exp: int64;
+	hp: int32;
+	mp: int32;
+	pos: Vec3;
+}
+
+table PcSummary
+{
+	pc_no: int64;
+	pc_name: string;
+	pc_type: uint8;
+	level: int32;
+}
+
+table PcListNotify
+{
+	type: uint16;
+	pc_list: [PcSummary];
 }
