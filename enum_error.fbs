@@ -22,4 +22,5 @@ enum code : uint16
 	pc_already_selected,
 	pc_name_duplicate,
 	pc_already_in_game,
+	map_load_fail,
 }
