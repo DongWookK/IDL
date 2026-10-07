@@ -184,6 +184,33 @@ inline const char *EnumNamemap_type(map_type e) {
   return EnumNamesmap_type()[index];
 }
 
+enum class map_point_type : uint8_t {
+  pc_spawn = 0,
+  MIN = pc_spawn,
+  MAX = pc_spawn
+};
+
+inline const map_point_type (&EnumValuesmap_point_type())[1] {
+  static const map_point_type values[] = {
+    map_point_type::pc_spawn
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesmap_point_type() {
+  static const char * const names[2] = {
+    "pc_spawn",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNamemap_point_type(map_point_type e) {
+  if (::flatbuffers::IsOutRange(e, map_point_type::pc_spawn, map_point_type::pc_spawn)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesmap_point_type()[index];
+}
+
 }  // namespace common
 
 #endif  // FLATBUFFERS_GENERATED_ENUMCOMMON_COMMON_H_

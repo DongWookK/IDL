@@ -35,3 +35,8 @@ enum map_type : uint8
 	permanent = 0,
 	instance
 }
+
+enum map_point_type : uint8
+{
+	pc_spawn = 0,
+}

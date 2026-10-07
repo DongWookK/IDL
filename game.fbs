@@ -78,6 +78,7 @@ table PcSelectAck
 	hp: int32;
 	mp: int32;
 	pos: Vec3;
+	map_no: uint32;
 }
 
 table PcSummary

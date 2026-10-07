@@ -904,6 +904,7 @@ struct PcSelectAckT : public ::flatbuffers::NativeTable {
   int32_t hp = 0;
   int32_t mp = 0;
   std::unique_ptr<game::Vec3> pos{};
+  uint32_t map_no = 0;
   PcSelectAckT() = default;
   PcSelectAckT(const PcSelectAckT &o);
   PcSelectAckT(PcSelectAckT&&) FLATBUFFERS_NOEXCEPT = default;
@@ -924,7 +925,8 @@ struct PcSelectAck FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
     VT_EXP = 16,
     VT_HP = 18,
     VT_MP = 20,
-    VT_POS = 22
+    VT_POS = 22,
+    VT_MAP_NO = 24
   };
   uint16_t type() const {
     return GetField<uint16_t>(VT_TYPE, 0);
@@ -956,6 +958,9 @@ struct PcSelectAck FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const game::Vec3 *pos() const {
     return GetStruct<const game::Vec3 *>(VT_POS);
   }
+  uint32_t map_no() const {
+    return GetField<uint32_t>(VT_MAP_NO, 0);
+  }
   template <bool B = false>
   bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -970,6 +975,7 @@ struct PcSelectAck FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
            VerifyField<int32_t>(verifier, VT_HP, 4) &&
            VerifyField<int32_t>(verifier, VT_MP, 4) &&
            VerifyField<game::Vec3>(verifier, VT_POS, 4) &&
+           VerifyField<uint32_t>(verifier, VT_MAP_NO, 4) &&
            verifier.EndTable();
   }
   PcSelectAckT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -1011,6 +1017,9 @@ struct PcSelectAckBuilder {
   void add_pos(const game::Vec3 *pos) {
     fbb_.AddStruct(PcSelectAck::VT_POS, pos);
   }
+  void add_map_no(uint32_t map_no) {
+    fbb_.AddElement<uint32_t>(PcSelectAck::VT_MAP_NO, map_no, 0);
+  }
   explicit PcSelectAckBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -1033,11 +1042,13 @@ inline ::flatbuffers::Offset<PcSelectAck> CreatePcSelectAck(
     int64_t exp = 0,
     int32_t hp = 0,
     int32_t mp = 0,
-    const game::Vec3 *pos = nullptr) {
+    const game::Vec3 *pos = nullptr,
+    uint32_t map_no = 0) {
   PcSelectAckBuilder builder_(_fbb);
   builder_.add_exp(exp);
   builder_.add_pc_no(pc_no);
   builder_.add_object_id(object_id);
+  builder_.add_map_no(map_no);
   builder_.add_pos(pos);
   builder_.add_mp(mp);
   builder_.add_hp(hp);
@@ -1064,7 +1075,8 @@ inline ::flatbuffers::Offset<PcSelectAck> CreatePcSelectAckDirect(
     int64_t exp = 0,
     int32_t hp = 0,
     int32_t mp = 0,
-    const game::Vec3 *pos = nullptr) {
+    const game::Vec3 *pos = nullptr,
+    uint32_t map_no = 0) {
   auto pc_name__ = pc_name ? _fbb.CreateString(pc_name) : 0;
   return game::CreatePcSelectAck(
       _fbb,
@@ -1077,7 +1089,8 @@ inline ::flatbuffers::Offset<PcSelectAck> CreatePcSelectAckDirect(
       exp,
       hp,
       mp,
-      pos);
+      pos,
+      map_no);
 }
 
 ::flatbuffers::Offset<PcSelectAck> CreatePcSelectAck(::flatbuffers::FlatBufferBuilder &_fbb, const PcSelectAckT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
@@ -1678,7 +1691,8 @@ inline bool operator==(const PcSelectAckT &lhs, const PcSelectAckT &rhs) {
       (lhs.exp == rhs.exp) &&
       (lhs.hp == rhs.hp) &&
       (lhs.mp == rhs.mp) &&
-      ((lhs.pos == rhs.pos) || (lhs.pos && rhs.pos && *lhs.pos == *rhs.pos));
+      ((lhs.pos == rhs.pos) || (lhs.pos && rhs.pos && *lhs.pos == *rhs.pos)) &&
+      (lhs.map_no == rhs.map_no);
 }
 
 inline bool operator!=(const PcSelectAckT &lhs, const PcSelectAckT &rhs) {
@@ -1696,7 +1710,8 @@ inline PcSelectAckT::PcSelectAckT(const PcSelectAckT &o)
         exp(o.exp),
         hp(o.hp),
         mp(o.mp),
-        pos((o.pos) ? new game::Vec3(*o.pos) : nullptr) {
+        pos((o.pos) ? new game::Vec3(*o.pos) : nullptr),
+        map_no(o.map_no) {
 }
 
 inline PcSelectAckT &PcSelectAckT::operator=(PcSelectAckT o) FLATBUFFERS_NOEXCEPT {
@@ -1710,6 +1725,7 @@ inline PcSelectAckT &PcSelectAckT::operator=(PcSelectAckT o) FLATBUFFERS_NOEXCEP
   std::swap(hp, o.hp);
   std::swap(mp, o.mp);
   std::swap(pos, o.pos);
+  std::swap(map_no, o.map_no);
   return *this;
 }
 
@@ -1732,6 +1748,7 @@ inline void PcSelectAck::UnPackTo(PcSelectAckT *_o, const ::flatbuffers::resolve
   { auto _e = hp(); _o->hp = _e; }
   { auto _e = mp(); _o->mp = _e; }
   { auto _e = pos(); if (_e) _o->pos = std::unique_ptr<game::Vec3>(new game::Vec3(*_e)); }
+  { auto _e = map_no(); _o->map_no = _e; }
 }
 
 inline ::flatbuffers::Offset<PcSelectAck> CreatePcSelectAck(::flatbuffers::FlatBufferBuilder &_fbb, const PcSelectAckT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
@@ -1752,6 +1769,7 @@ inline ::flatbuffers::Offset<PcSelectAck> PcSelectAck::Pack(::flatbuffers::FlatB
   auto _hp = _o->hp;
   auto _mp = _o->mp;
   auto _pos = _o->pos ? _o->pos.get() : nullptr;
+  auto _map_no = _o->map_no;
   return game::CreatePcSelectAck(
       _fbb,
       _type,
@@ -1763,7 +1781,8 @@ inline ::flatbuffers::Offset<PcSelectAck> PcSelectAck::Pack(::flatbuffers::FlatB
       _exp,
       _hp,
       _mp,
-      _pos);
+      _pos,
+      _map_no);
 }
 
 

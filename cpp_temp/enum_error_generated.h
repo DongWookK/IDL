@@ -38,11 +38,12 @@ enum class code : uint16_t {
   pc_name_duplicate = 18,
   pc_already_in_game = 19,
   map_load_fail = 20,
+  map_not_exist = 21,
   MIN = ok,
-  MAX = map_load_fail
+  MAX = map_not_exist
 };
 
-inline const code (&EnumValuescode())[21] {
+inline const code (&EnumValuescode())[22] {
   static const code values[] = {
     code::ok,
     code::sql_fail,
@@ -64,13 +65,14 @@ inline const code (&EnumValuescode())[21] {
     code::pc_already_selected,
     code::pc_name_duplicate,
     code::pc_already_in_game,
-    code::map_load_fail
+    code::map_load_fail,
+    code::map_not_exist
   };
   return values;
 }
 
 inline const char * const *EnumNamescode() {
-  static const char * const names[22] = {
+  static const char * const names[23] = {
     "ok",
     "sql_fail",
     "sql_stmt_invalid",
@@ -92,13 +94,14 @@ inline const char * const *EnumNamescode() {
     "pc_name_duplicate",
     "pc_already_in_game",
     "map_load_fail",
+    "map_not_exist",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNamecode(code e) {
-  if (::flatbuffers::IsOutRange(e, code::ok, code::map_load_fail)) return "";
+  if (::flatbuffers::IsOutRange(e, code::ok, code::map_not_exist)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamescode()[index];
 }
