@@ -29,3 +29,9 @@ enum pc_type : uint8
 	knight = 0,
 	archer,
 }
+
+enum map_type : uint8
+{
+	permanent = 0,
+	instance
+}

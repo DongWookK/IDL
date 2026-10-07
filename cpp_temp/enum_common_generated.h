@@ -154,6 +154,36 @@ inline const char *EnumNamepc_type(pc_type e) {
   return EnumNamespc_type()[index];
 }
 
+enum class map_type : uint8_t {
+  permanent = 0,
+  instance = 1,
+  MIN = permanent,
+  MAX = instance
+};
+
+inline const map_type (&EnumValuesmap_type())[2] {
+  static const map_type values[] = {
+    map_type::permanent,
+    map_type::instance
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesmap_type() {
+  static const char * const names[3] = {
+    "permanent",
+    "instance",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNamemap_type(map_type e) {
+  if (::flatbuffers::IsOutRange(e, map_type::permanent, map_type::instance)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesmap_type()[index];
+}
+
 }  // namespace common
 
 #endif  // FLATBUFFERS_GENERATED_ENUMCOMMON_COMMON_H_
