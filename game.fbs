@@ -69,7 +69,7 @@ table PcSelectReq
 table PcSelectAck
 {
 	type: uint16;
-	object_id: uint64;
+	object_id: int32;
 	pc_no: int64;
 	pc_name: string;
 	pc_type: uint8;

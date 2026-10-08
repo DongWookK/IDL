@@ -895,7 +895,7 @@ struct PcSelectReq::Traits {
 struct PcSelectAckT : public ::flatbuffers::NativeTable {
   typedef PcSelectAck TableType;
   uint16_t type = 0;
-  uint64_t object_id = 0;
+  int32_t object_id = 0;
   int64_t pc_no = 0;
   std::string pc_name{};
   uint8_t pc_type = 0;
@@ -931,8 +931,8 @@ struct PcSelectAck FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   uint16_t type() const {
     return GetField<uint16_t>(VT_TYPE, 0);
   }
-  uint64_t object_id() const {
-    return GetField<uint64_t>(VT_OBJECT_ID, 0);
+  int32_t object_id() const {
+    return GetField<int32_t>(VT_OBJECT_ID, 0);
   }
   int64_t pc_no() const {
     return GetField<int64_t>(VT_PC_NO, 0);
@@ -965,7 +965,7 @@ struct PcSelectAck FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint16_t>(verifier, VT_TYPE, 2) &&
-           VerifyField<uint64_t>(verifier, VT_OBJECT_ID, 8) &&
+           VerifyField<int32_t>(verifier, VT_OBJECT_ID, 4) &&
            VerifyField<int64_t>(verifier, VT_PC_NO, 8) &&
            VerifyOffset(verifier, VT_PC_NAME) &&
            verifier.VerifyString(pc_name()) &&
@@ -990,8 +990,8 @@ struct PcSelectAckBuilder {
   void add_type(uint16_t type) {
     fbb_.AddElement<uint16_t>(PcSelectAck::VT_TYPE, type, 0);
   }
-  void add_object_id(uint64_t object_id) {
-    fbb_.AddElement<uint64_t>(PcSelectAck::VT_OBJECT_ID, object_id, 0);
+  void add_object_id(int32_t object_id) {
+    fbb_.AddElement<int32_t>(PcSelectAck::VT_OBJECT_ID, object_id, 0);
   }
   void add_pc_no(int64_t pc_no) {
     fbb_.AddElement<int64_t>(PcSelectAck::VT_PC_NO, pc_no, 0);
@@ -1034,7 +1034,7 @@ struct PcSelectAckBuilder {
 inline ::flatbuffers::Offset<PcSelectAck> CreatePcSelectAck(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     uint16_t type = 0,
-    uint64_t object_id = 0,
+    int32_t object_id = 0,
     int64_t pc_no = 0,
     ::flatbuffers::Offset<::flatbuffers::String> pc_name = 0,
     uint8_t pc_type = 0,
@@ -1047,13 +1047,13 @@ inline ::flatbuffers::Offset<PcSelectAck> CreatePcSelectAck(
   PcSelectAckBuilder builder_(_fbb);
   builder_.add_exp(exp);
   builder_.add_pc_no(pc_no);
-  builder_.add_object_id(object_id);
   builder_.add_map_no(map_no);
   builder_.add_pos(pos);
   builder_.add_mp(mp);
   builder_.add_hp(hp);
   builder_.add_level(level);
   builder_.add_pc_name(pc_name);
+  builder_.add_object_id(object_id);
   builder_.add_type(type);
   builder_.add_pc_type(pc_type);
   return builder_.Finish();
@@ -1067,7 +1067,7 @@ struct PcSelectAck::Traits {
 inline ::flatbuffers::Offset<PcSelectAck> CreatePcSelectAckDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     uint16_t type = 0,
-    uint64_t object_id = 0,
+    int32_t object_id = 0,
     int64_t pc_no = 0,
     const char *pc_name = nullptr,
     uint8_t pc_type = 0,
