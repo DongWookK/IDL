@@ -28,11 +28,13 @@ enum class tr_type : uint16_t {
   PcSelectReq = 8,
   PcSelectAck = 9,
   PcListNotify = 10,
+  MoveReq = 11,
+  MoveNotify = 12,
   MIN = TestEcho,
-  MAX = PcListNotify
+  MAX = MoveNotify
 };
 
-inline const tr_type (&EnumValuestr_type())[11] {
+inline const tr_type (&EnumValuestr_type())[13] {
   static const tr_type values[] = {
     tr_type::TestEcho,
     tr_type::UserLoginReq,
@@ -44,13 +46,15 @@ inline const tr_type (&EnumValuestr_type())[11] {
     tr_type::PcCreateAck,
     tr_type::PcSelectReq,
     tr_type::PcSelectAck,
-    tr_type::PcListNotify
+    tr_type::PcListNotify,
+    tr_type::MoveReq,
+    tr_type::MoveNotify
   };
   return values;
 }
 
 inline const char * const *EnumNamestr_type() {
-  static const char * const names[12] = {
+  static const char * const names[14] = {
     "TestEcho",
     "UserLoginReq",
     "UserLoginAck",
@@ -62,13 +66,15 @@ inline const char * const *EnumNamestr_type() {
     "PcSelectReq",
     "PcSelectAck",
     "PcListNotify",
+    "MoveReq",
+    "MoveNotify",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNametr_type(tr_type e) {
-  if (::flatbuffers::IsOutRange(e, tr_type::TestEcho, tr_type::PcListNotify)) return "";
+  if (::flatbuffers::IsOutRange(e, tr_type::TestEcho, tr_type::MoveNotify)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamestr_type()[index];
 }

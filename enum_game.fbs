@@ -13,4 +13,6 @@ enum tr_type : uint16
 	PcSelectReq,
 	PcSelectAck,
 	PcListNotify,
+	MoveReq,
+	MoveNotify,
 }

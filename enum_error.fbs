@@ -24,4 +24,6 @@ enum code : uint16
 	pc_already_in_game,
 	map_load_fail,
 	map_not_exist,
+	move_not_allowed,
+	move_path_fail,
 }

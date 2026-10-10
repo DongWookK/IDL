@@ -65,6 +65,14 @@ struct PcListNotify;
 struct PcListNotifyBuilder;
 struct PcListNotifyT;
 
+struct MoveReq;
+struct MoveReqBuilder;
+struct MoveReqT;
+
+struct MoveNotify;
+struct MoveNotifyBuilder;
+struct MoveNotifyT;
+
 bool operator==(const TestEchoT &lhs, const TestEchoT &rhs);
 bool operator!=(const TestEchoT &lhs, const TestEchoT &rhs);
 bool operator==(const UserLoginReqT &lhs, const UserLoginReqT &rhs);
@@ -91,6 +99,10 @@ bool operator==(const PcSummaryT &lhs, const PcSummaryT &rhs);
 bool operator!=(const PcSummaryT &lhs, const PcSummaryT &rhs);
 bool operator==(const PcListNotifyT &lhs, const PcListNotifyT &rhs);
 bool operator!=(const PcListNotifyT &lhs, const PcListNotifyT &rhs);
+bool operator==(const MoveReqT &lhs, const MoveReqT &rhs);
+bool operator!=(const MoveReqT &lhs, const MoveReqT &rhs);
+bool operator==(const MoveNotifyT &lhs, const MoveNotifyT &rhs);
+bool operator!=(const MoveNotifyT &lhs, const MoveNotifyT &rhs);
 
 FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vec3 FLATBUFFERS_FINAL_CLASS {
  private:
@@ -1290,6 +1302,188 @@ inline ::flatbuffers::Offset<PcListNotify> CreatePcListNotifyDirect(
 
 ::flatbuffers::Offset<PcListNotify> CreatePcListNotify(::flatbuffers::FlatBufferBuilder &_fbb, const PcListNotifyT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct MoveReqT : public ::flatbuffers::NativeTable {
+  typedef MoveReq TableType;
+  uint16_t type = 0;
+  std::unique_ptr<game::Vec3> dest{};
+  MoveReqT() = default;
+  MoveReqT(const MoveReqT &o);
+  MoveReqT(MoveReqT&&) FLATBUFFERS_NOEXCEPT = default;
+  MoveReqT &operator=(MoveReqT o) FLATBUFFERS_NOEXCEPT;
+};
+
+struct MoveReq FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef MoveReqT NativeTableType;
+  typedef MoveReqBuilder Builder;
+  struct Traits;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_TYPE = 4,
+    VT_DEST = 6
+  };
+  uint16_t type() const {
+    return GetField<uint16_t>(VT_TYPE, 0);
+  }
+  const game::Vec3 *dest() const {
+    return GetStruct<const game::Vec3 *>(VT_DEST);
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint16_t>(verifier, VT_TYPE, 2) &&
+           VerifyField<game::Vec3>(verifier, VT_DEST, 4) &&
+           verifier.EndTable();
+  }
+  MoveReqT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(MoveReqT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<MoveReq> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const MoveReqT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct MoveReqBuilder {
+  typedef MoveReq Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_type(uint16_t type) {
+    fbb_.AddElement<uint16_t>(MoveReq::VT_TYPE, type, 0);
+  }
+  void add_dest(const game::Vec3 *dest) {
+    fbb_.AddStruct(MoveReq::VT_DEST, dest);
+  }
+  explicit MoveReqBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<MoveReq> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<MoveReq>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<MoveReq> CreateMoveReq(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint16_t type = 0,
+    const game::Vec3 *dest = nullptr) {
+  MoveReqBuilder builder_(_fbb);
+  builder_.add_dest(dest);
+  builder_.add_type(type);
+  return builder_.Finish();
+}
+
+struct MoveReq::Traits {
+  using type = MoveReq;
+  static auto constexpr Create = CreateMoveReq;
+};
+
+::flatbuffers::Offset<MoveReq> CreateMoveReq(::flatbuffers::FlatBufferBuilder &_fbb, const MoveReqT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct MoveNotifyT : public ::flatbuffers::NativeTable {
+  typedef MoveNotify TableType;
+  uint16_t type = 0;
+  int32_t object_id = 0;
+  std::vector<game::Vec3> path{};
+  float speed = 0.0f;
+};
+
+struct MoveNotify FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef MoveNotifyT NativeTableType;
+  typedef MoveNotifyBuilder Builder;
+  struct Traits;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_TYPE = 4,
+    VT_OBJECT_ID = 6,
+    VT_PATH = 8,
+    VT_SPEED = 10
+  };
+  uint16_t type() const {
+    return GetField<uint16_t>(VT_TYPE, 0);
+  }
+  int32_t object_id() const {
+    return GetField<int32_t>(VT_OBJECT_ID, 0);
+  }
+  const ::flatbuffers::Vector<const game::Vec3 *> *path() const {
+    return GetPointer<const ::flatbuffers::Vector<const game::Vec3 *> *>(VT_PATH);
+  }
+  float speed() const {
+    return GetField<float>(VT_SPEED, 0.0f);
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint16_t>(verifier, VT_TYPE, 2) &&
+           VerifyField<int32_t>(verifier, VT_OBJECT_ID, 4) &&
+           VerifyOffset(verifier, VT_PATH) &&
+           verifier.VerifyVector(path()) &&
+           VerifyField<float>(verifier, VT_SPEED, 4) &&
+           verifier.EndTable();
+  }
+  MoveNotifyT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(MoveNotifyT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static ::flatbuffers::Offset<MoveNotify> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const MoveNotifyT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct MoveNotifyBuilder {
+  typedef MoveNotify Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_type(uint16_t type) {
+    fbb_.AddElement<uint16_t>(MoveNotify::VT_TYPE, type, 0);
+  }
+  void add_object_id(int32_t object_id) {
+    fbb_.AddElement<int32_t>(MoveNotify::VT_OBJECT_ID, object_id, 0);
+  }
+  void add_path(::flatbuffers::Offset<::flatbuffers::Vector<const game::Vec3 *>> path) {
+    fbb_.AddOffset(MoveNotify::VT_PATH, path);
+  }
+  void add_speed(float speed) {
+    fbb_.AddElement<float>(MoveNotify::VT_SPEED, speed, 0.0f);
+  }
+  explicit MoveNotifyBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<MoveNotify> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<MoveNotify>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<MoveNotify> CreateMoveNotify(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint16_t type = 0,
+    int32_t object_id = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<const game::Vec3 *>> path = 0,
+    float speed = 0.0f) {
+  MoveNotifyBuilder builder_(_fbb);
+  builder_.add_speed(speed);
+  builder_.add_path(path);
+  builder_.add_object_id(object_id);
+  builder_.add_type(type);
+  return builder_.Finish();
+}
+
+struct MoveNotify::Traits {
+  using type = MoveNotify;
+  static auto constexpr Create = CreateMoveNotify;
+};
+
+inline ::flatbuffers::Offset<MoveNotify> CreateMoveNotifyDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint16_t type = 0,
+    int32_t object_id = 0,
+    const std::vector<game::Vec3> *path = nullptr,
+    float speed = 0.0f) {
+  auto path__ = path ? _fbb.CreateVectorOfStructs<game::Vec3>(*path) : 0;
+  return game::CreateMoveNotify(
+      _fbb,
+      type,
+      object_id,
+      path__,
+      speed);
+}
+
+::flatbuffers::Offset<MoveNotify> CreateMoveNotify(::flatbuffers::FlatBufferBuilder &_fbb, const MoveNotifyT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 
 inline bool operator==(const TestEchoT &lhs, const TestEchoT &rhs) {
   return
@@ -1885,6 +2079,107 @@ inline ::flatbuffers::Offset<PcListNotify> PcListNotify::Pack(::flatbuffers::Fla
       _fbb,
       _type,
       _pc_list);
+}
+
+
+inline bool operator==(const MoveReqT &lhs, const MoveReqT &rhs) {
+  return
+      (lhs.type == rhs.type) &&
+      ((lhs.dest == rhs.dest) || (lhs.dest && rhs.dest && *lhs.dest == *rhs.dest));
+}
+
+inline bool operator!=(const MoveReqT &lhs, const MoveReqT &rhs) {
+    return !(lhs == rhs);
+}
+
+
+inline MoveReqT::MoveReqT(const MoveReqT &o)
+      : type(o.type),
+        dest((o.dest) ? new game::Vec3(*o.dest) : nullptr) {
+}
+
+inline MoveReqT &MoveReqT::operator=(MoveReqT o) FLATBUFFERS_NOEXCEPT {
+  std::swap(type, o.type);
+  std::swap(dest, o.dest);
+  return *this;
+}
+
+inline MoveReqT *MoveReq::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::make_unique<MoveReqT>();
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void MoveReq::UnPackTo(MoveReqT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = type(); _o->type = _e; }
+  { auto _e = dest(); if (_e) _o->dest = std::unique_ptr<game::Vec3>(new game::Vec3(*_e)); }
+}
+
+inline ::flatbuffers::Offset<MoveReq> CreateMoveReq(::flatbuffers::FlatBufferBuilder &_fbb, const MoveReqT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return MoveReq::Pack(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<MoveReq> MoveReq::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const MoveReqT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const MoveReqT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _type = _o->type;
+  auto _dest = _o->dest ? _o->dest.get() : nullptr;
+  return game::CreateMoveReq(
+      _fbb,
+      _type,
+      _dest);
+}
+
+
+inline bool operator==(const MoveNotifyT &lhs, const MoveNotifyT &rhs) {
+  return
+      (lhs.type == rhs.type) &&
+      (lhs.object_id == rhs.object_id) &&
+      (lhs.path == rhs.path) &&
+      (lhs.speed == rhs.speed);
+}
+
+inline bool operator!=(const MoveNotifyT &lhs, const MoveNotifyT &rhs) {
+    return !(lhs == rhs);
+}
+
+
+inline MoveNotifyT *MoveNotify::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+  auto _o = std::make_unique<MoveNotifyT>();
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void MoveNotify::UnPackTo(MoveNotifyT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = type(); _o->type = _e; }
+  { auto _e = object_id(); _o->object_id = _e; }
+  { auto _e = path(); if (_e) { _o->path.resize(_e->size()); for (::flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->path[_i] = *_e->Get(_i); } } else { _o->path.resize(0); } }
+  { auto _e = speed(); _o->speed = _e; }
+}
+
+inline ::flatbuffers::Offset<MoveNotify> CreateMoveNotify(::flatbuffers::FlatBufferBuilder &_fbb, const MoveNotifyT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  return MoveNotify::Pack(_fbb, _o, _rehasher);
+}
+
+inline ::flatbuffers::Offset<MoveNotify> MoveNotify::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const MoveNotifyT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const MoveNotifyT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _type = _o->type;
+  auto _object_id = _o->object_id;
+  auto _path = _o->path.size() ? _fbb.CreateVectorOfStructs(_o->path) : 0;
+  auto _speed = _o->speed;
+  return game::CreateMoveNotify(
+      _fbb,
+      _type,
+      _object_id,
+      _path,
+      _speed);
 }
 
 }  // namespace game

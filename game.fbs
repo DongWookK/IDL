@@ -94,3 +94,17 @@ table PcListNotify
 	type: uint16;
 	pc_list: [PcSummary];
 }
+
+table MoveReq
+{
+	type: uint16;
+	dest: Vec3;
+}
+
+table MoveNotify
+{
+	type: uint16;
+	object_id: int32;
+	path: [Vec3];
+	speed: float;
+}
